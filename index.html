@@ -66,26 +66,35 @@
     }
 
     .brand {
-      font-size: clamp(36px, 7vw, 82px);
-      line-height: 0.95;
-      font-weight: 900;
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      font-size: clamp(44px, 8vw, 96px);
+      line-height: 0.9;
+      font-weight: 500;
       letter-spacing: 0.5px;
-      text-shadow: 0 14px 35px var(--sombra);
+      color: #ffffff;
+      text-shadow:
+        0 4px 0 rgba(75, 15, 100, 0.55),
+        0 14px 35px var(--sombra);
     }
 
     .brand span {
       display: block;
-      margin-top: 10px;
-      font-size: clamp(14px, 2vw, 24px);
-      letter-spacing: 8px;
+      margin-top: 14px;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(13px, 2vw, 23px);
+      letter-spacing: 9px;
       color: var(--dorado-claro);
+      font-weight: 700;
+      text-transform: uppercase;
     }
 
     .tagline {
-      margin-top: 14px;
-      font-size: clamp(16px, 2.5vw, 24px);
-      color: var(--dorado-claro);
-      font-weight: 800;
+      margin-top: 16px;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-style: italic;
+      font-size: clamp(17px, 2.6vw, 26px);
+      color: #fff4c5;
+      font-weight: 600;
       text-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
     }
 
@@ -141,8 +150,10 @@
       padding: 15px 26px;
       border-radius: 999px;
       text-decoration: none;
-      font-size: 16px;
-      font-weight: 900;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-style: italic;
+      font-size: 17px;
+      font-weight: 800;
       color: #321042;
       background: linear-gradient(135deg, var(--dorado-claro), var(--dorado));
       box-shadow: 0 15px 34px rgba(0, 0, 0, 0.30);
@@ -174,16 +185,19 @@
       background: rgba(255, 255, 255, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.28);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-      font-weight: 900;
-      font-size: 18px;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 20px;
     }
 
     .footer {
       text-align: center;
       margin-top: 24px;
       color: var(--dorado-claro);
-      font-size: clamp(16px, 2vw, 22px);
-      font-weight: 800;
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 500;
       animation: fadeUp 0.9s ease both 0.6s;
     }
 
