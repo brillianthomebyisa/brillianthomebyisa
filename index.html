@@ -405,6 +405,215 @@
         background: rgba(255,255,255,.10);
       }
     }
+
+    .about-owner {
+      margin-top: 18px;
+      padding: 22px 18px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: 0 18px 42px rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      animation: fadeUp .8s ease both .38s;
+    }
+
+    .about-owner h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .about-owner p {
+      color: #fff8df;
+      line-height: 1.5;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .owner-signature {
+      margin-top: 14px;
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      font-size: 38px;
+      color: var(--gold-light);
+      text-align: center;
+      text-shadow: 0 10px 25px rgba(0,0,0,.25);
+    }
+
+    .calendar-section {
+      margin-top: 18px;
+      padding: 22px 16px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: 0 18px 42px rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      animation: fadeUp .8s ease both .45s;
+    }
+
+    .calendar-section h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--gold-light);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .calendar-section .calendar-note {
+      text-align: center;
+      color: #fff8df;
+      line-height: 1.45;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .calendar-box {
+      border-radius: 24px;
+      background: rgba(255,255,255,.92);
+      color: var(--ink);
+      padding: 16px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.24);
+    }
+
+    .calendar-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .calendar-head button {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--ink);
+      font-weight: 900;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+    }
+
+    #monthTitle {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .calendar-week,
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .calendar-week div {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: #6a3b77;
+      padding-bottom: 6px;
+    }
+
+    .day {
+      min-height: 42px;
+      border: 0;
+      border-radius: 14px;
+      background: rgba(75,15,100,.08);
+      color: var(--ink);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .day:hover {
+      transform: translateY(-2px);
+      background: rgba(214,170,58,.35);
+    }
+
+    .day.empty {
+      background: transparent;
+      cursor: default;
+    }
+
+    .day.today {
+      outline: 2px solid var(--gold);
+      background: rgba(214,170,58,.18);
+    }
+
+    .day.selected {
+      background: linear-gradient(135deg, #a95bd0, #3b064d);
+      color: #fff;
+    }
+
+    .booking-form {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .booking-form label {
+      font-size: 13px;
+      font-weight: 900;
+      color: #5a246b;
+    }
+
+    .booking-form select,
+    .booking-form input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid rgba(75,15,100,.22);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 15px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+
+    .selected-date-text {
+      text-align: center;
+      font-weight: 900;
+      color: var(--ink);
+      margin-top: 12px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    .calendar-whatsapp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50px;
+      margin-top: 12px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: #fff;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #a95bd0, #3b064d);
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+    }
+
+    .calendar-small {
+      margin-top: 10px;
+      text-align: center;
+      color: #6a3b77;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
   </style>
 </head>
 
@@ -482,6 +691,73 @@
       </article>
     </section>
 
+    <section class="about-owner" aria-label="Quién soy">
+      <h2>Primero, conoce quién soy</h2>
+      <p>
+        Soy Isa, la persona detrás de <strong>Brilliant Home By Isa</strong>. Mi compromiso es ayudarte a mantener tu hogar, apartamento o Airbnb limpio, fresco y bien presentado. Trabajo con responsabilidad, detalle y amor por cada espacio, porque una limpieza bien hecha se nota desde que entras.
+      </p>
+      <div class="owner-signature">Con cariño, Isa</div>
+    </section>
+
+    <section class="calendar-section" aria-label="Calendario de disponibilidad">
+      <h2>Calendario de cita</h2>
+      <p class="calendar-note">
+        Escoge una fecha tentativa, el tipo de servicio y envía tu solicitud por WhatsApp para confirmar disponibilidad.
+      </p>
+
+      <div class="calendar-box">
+        <div class="calendar-head">
+          <button type="button" id="prevMonth" aria-label="Mes anterior">‹</button>
+          <div id="monthTitle">Mes</div>
+          <button type="button" id="nextMonth" aria-label="Mes siguiente">›</button>
+        </div>
+
+        <div class="calendar-week" aria-hidden="true">
+          <div>Dom</div>
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mié</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sáb</div>
+        </div>
+
+        <div class="calendar-days" id="calendarDays"></div>
+
+        <div class="selected-date-text" id="selectedDateText">Selecciona una fecha</div>
+
+        <div class="booking-form">
+          <label for="serviceType">Tipo de servicio</label>
+          <select id="serviceType">
+            <option value="Limpieza de hogar">Limpieza de hogar</option>
+            <option value="Limpieza de apartamento">Limpieza de apartamento</option>
+            <option value="Limpieza de Airbnb">Limpieza de Airbnb</option>
+            <option value="Limpieza profunda">Limpieza profunda</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+          </select>
+
+          <label for="timeSelect">Hora preferida</label>
+          <select id="timeSelect">
+            <option value="Mañana">Mañana</option>
+            <option value="Mediodía">Mediodía</option>
+            <option value="Tarde">Tarde</option>
+            <option value="A confirmar">A confirmar</option>
+          </select>
+
+          <label for="townInput">Pueblo o área</label>
+          <input id="townInput" type="text" placeholder="Ejemplo: Humacao, Fajardo, Ceiba...">
+        </div>
+
+        <a class="calendar-whatsapp" id="bookingWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
+          💬 Solicitar cita por WhatsApp
+        </a>
+
+        <p class="calendar-small">
+          La fecha no queda confirmada automáticamente. Se confirma por WhatsApp según disponibilidad.
+        </p>
+      </div>
+    </section>
+
     <section class="closing">
       <h4>Limpieza que se nota</h4>
       <p>Servicio que enamora. Agenda tu cotización hoy.</p>
@@ -494,5 +770,121 @@
       <a class="bottom-btn whatsapp" href="https://wa.me/17875490483?text=%F0%9F%91%8B%20%C2%A1Hola%21%20Gracias%20por%20comunicarte%20con%20Brilliant%20Home%20By%20Isa%20%E2%9C%A8%20Me%20interesa%20recibir%20una%20cotizaci%C3%B3n%20para%20servicios%20de%20limpieza%20en%20el%20%C3%A1rea%20Este%20de%20Puerto%20Rico.%20%C2%BFPodr%C3%ADan%20brindarme%20m%C3%A1s%20informaci%C3%B3n%20sobre%20disponibilidad%20y%20precios%3F" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
     </div>
   </nav>
+
+  <script>
+    const phoneNumber = "17875490483";
+    const monthTitle = document.getElementById("monthTitle");
+    const calendarDays = document.getElementById("calendarDays");
+    const selectedDateText = document.getElementById("selectedDateText");
+    const bookingWhatsapp = document.getElementById("bookingWhatsapp");
+    const serviceType = document.getElementById("serviceType");
+    const timeSelect = document.getElementById("timeSelect");
+    const townInput = document.getElementById("townInput");
+
+    const monthNames = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    let currentDate = new Date();
+    let viewYear = currentDate.getFullYear();
+    let viewMonth = currentDate.getMonth();
+    let selectedDate = null;
+
+    function formatDate(date) {
+      return date.toLocaleDateString("es-PR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function updateWhatsAppLink() {
+      const dateText = selectedDate ? formatDate(selectedDate) : "fecha por confirmar";
+      const town = townInput.value.trim() || "área por confirmar";
+      const message = `👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa. Fecha: ${dateText}. Servicio: ${serviceType.value}. Hora preferida: ${timeSelect.value}. Pueblo/área: ${town}. ¿Me pueden confirmar disponibilidad y precio?`;
+      bookingWhatsapp.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    }
+
+    function renderCalendar() {
+      calendarDays.innerHTML = "";
+      monthTitle.textContent = `${monthNames[viewMonth]} ${viewYear}`;
+
+      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const today = new Date();
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement("button");
+        empty.className = "day empty";
+        empty.type = "button";
+        empty.disabled = true;
+        calendarDays.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const btn = document.createElement("button");
+        btn.className = "day";
+        btn.type = "button";
+        btn.textContent = day;
+
+        const btnDate = new Date(viewYear, viewMonth, day);
+
+        if (
+          btnDate.getFullYear() === today.getFullYear() &&
+          btnDate.getMonth() === today.getMonth() &&
+          btnDate.getDate() === today.getDate()
+        ) {
+          btn.classList.add("today");
+        }
+
+        if (
+          selectedDate &&
+          btnDate.getFullYear() === selectedDate.getFullYear() &&
+          btnDate.getMonth() === selectedDate.getMonth() &&
+          btnDate.getDate() === selectedDate.getDate()
+        ) {
+          btn.classList.add("selected");
+        }
+
+        btn.addEventListener("click", () => {
+          selectedDate = btnDate;
+          selectedDateText.textContent = formatDate(selectedDate);
+          renderCalendar();
+          updateWhatsAppLink();
+        });
+
+        calendarDays.appendChild(btn);
+      }
+
+      updateWhatsAppLink();
+    }
+
+    document.getElementById("prevMonth").addEventListener("click", () => {
+      viewMonth--;
+      if (viewMonth < 0) {
+        viewMonth = 11;
+        viewYear--;
+      }
+      renderCalendar();
+    });
+
+    document.getElementById("nextMonth").addEventListener("click", () => {
+      viewMonth++;
+      if (viewMonth > 11) {
+        viewMonth = 0;
+        viewYear++;
+      }
+      renderCalendar();
+    });
+
+    serviceType.addEventListener("change", updateWhatsAppLink);
+    timeSelect.addEventListener("change", updateWhatsAppLink);
+    townInput.addEventListener("input", updateWhatsAppLink);
+
+    renderCalendar();
+  </script>
+
 </body>
 </html>
