@@ -578,6 +578,20 @@
       outline: none;
     }
 
+
+    .booking-form select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #4b0f64 50%),
+        linear-gradient(135deg, #4b0f64 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) 50%,
+        calc(100% - 16px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 42px;
+    }
+
     .selected-date-text {
       text-align: center;
       font-weight: 900;
@@ -727,6 +741,9 @@
         <div class="selected-date-text" id="selectedDateText">Selecciona una fecha</div>
 
         <div class="booking-form">
+          <label for="clientName">Nombre</label>
+          <input id="clientName" type="text" placeholder="Escribe tu nombre">
+
           <label for="serviceType">Tipo de servicio</label>
           <select id="serviceType">
             <option value="Limpieza de hogar">Limpieza de hogar</option>
@@ -744,8 +761,24 @@
             <option value="A confirmar">A confirmar</option>
           </select>
 
-          <label for="townInput">Pueblo o área</label>
-          <input id="townInput" type="text" placeholder="Ejemplo: Humacao, Fajardo, Ceiba...">
+          <label for="townInput">Pueblo del área Este</label>
+          <select id="townInput">
+            <option value="Pueblo por confirmar">Selecciona tu pueblo</option>
+            <option value="Caguas">Caguas</option>
+            <option value="Canóvanas">Canóvanas</option>
+            <option value="Ceiba">Ceiba</option>
+            <option value="Fajardo">Fajardo</option>
+            <option value="Gurabo">Gurabo</option>
+            <option value="Humacao">Humacao</option>
+            <option value="Juncos">Juncos</option>
+            <option value="Las Piedras">Las Piedras</option>
+            <option value="Luquillo">Luquillo</option>
+            <option value="Naguabo">Naguabo</option>
+            <option value="Río Grande">Río Grande</option>
+            <option value="San Lorenzo">San Lorenzo</option>
+            <option value="Yabucoa">Yabucoa</option>
+            <option value="Otro pueblo cercano">Otro pueblo cercano</option>
+          </select>
         </div>
 
         <a class="calendar-whatsapp" id="bookingWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
@@ -780,6 +813,7 @@
     const serviceType = document.getElementById("serviceType");
     const timeSelect = document.getElementById("timeSelect");
     const townInput = document.getElementById("townInput");
+    const clientName = document.getElementById("clientName");
 
     const monthNames = [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -802,8 +836,9 @@
 
     function updateWhatsAppLink() {
       const dateText = selectedDate ? formatDate(selectedDate) : "fecha por confirmar";
-      const town = townInput.value.trim() || "área por confirmar";
-      const message = `👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa. Fecha: ${dateText}. Servicio: ${serviceType.value}. Hora preferida: ${timeSelect.value}. Pueblo/área: ${town}. ¿Me pueden confirmar disponibilidad y precio?`;
+      const town = townInput.value || "pueblo por confirmar";
+      const name = clientName.value.trim() || "nombre por confirmar";
+      const message = `👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa. Nombre: ${name}. Fecha: ${dateText}. Servicio: ${serviceType.value}. Hora preferida: ${timeSelect.value}. Pueblo: ${town}. ¿Me pueden confirmar disponibilidad y precio?`;
       bookingWhatsapp.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     }
 
@@ -881,7 +916,8 @@
 
     serviceType.addEventListener("change", updateWhatsAppLink);
     timeSelect.addEventListener("change", updateWhatsAppLink);
-    townInput.addEventListener("input", updateWhatsAppLink);
+    townInput.addEventListener("change", updateWhatsAppLink);
+    clientName.addEventListener("input", updateWhatsAppLink);
 
     renderCalendar();
   </script>
