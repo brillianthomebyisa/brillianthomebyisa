@@ -1137,41 +1137,6 @@
     }
 
 
-    .message-preview {
-      margin-top: 14px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .message-preview label {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: 14px;
-      color: #5a246b;
-      font-weight: 900;
-    }
-
-    .message-preview textarea {
-      width: 100%;
-      min-height: 150px;
-      resize: vertical;
-      border: 1px solid rgba(75,15,100,.18);
-      border-radius: 18px;
-      padding: 13px 14px;
-      background: #fff;
-      color: var(--ink);
-      font-size: 14px;
-      line-height: 1.45;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 8px 18px rgba(75,15,100,.08);
-    }
-
-    .message-preview small {
-      color: #7c5288;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
     .submit-whatsapp {
       border: 0;
       appearance: none;
@@ -1347,13 +1312,7 @@
               <small>Revisa los datos antes de enviar por WhatsApp</small>
             </div>
           </div>
-
-          <div class="request-summary clean-summary">
-            <div class="summary-line">
-              <span>Cliente</span>
-              <strong id="summaryName">Nombre por confirmar</strong>
-            </div>
-            <div class="summary-line">
+<div class="summary-line">
               <span>Fecha</span>
               <strong id="summaryDate">Fecha por confirmar</strong>
             </div>
@@ -1370,17 +1329,10 @@
               <strong id="summaryService">Limpieza de hogar</strong>
             </div>
           </div>
-
-          <div class="message-preview">
-            <label for="generatedMessage">Datos del formulario que se enviarán por WhatsApp</label>
-            <textarea id="generatedMessage" readonly></textarea>
-            <small>Aquí debe aparecer: nombre, fecha del servicio, hora preferida, pueblo y tipo de servicio.</small>
-          </div>
-
-          <button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar solicitud por WhatsApp</button>
+<button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar por WhatsApp</button>
 
           <p class="calendar-small">
-            Al presionar enviar, WhatsApp abrirá con estos datos del formulario.
+            Al presionar enviar, WhatsApp abrirá con la información que llenaste arriba.
           </p>
         </div>
       </form>
@@ -1404,6 +1356,7 @@
 
 
 
+
   <script>
     (function () {
       const phoneNumber = "17875490483";
@@ -1415,13 +1368,6 @@
       const serviceType = document.getElementById("serviceType");
       const bookingWhatsapp = document.getElementById("bookingWhatsapp");
 
-      const summaryName = document.getElementById("summaryName");
-      const summaryDate = document.getElementById("summaryDate");
-      const summaryTime = document.getElementById("summaryTime");
-      const summaryTown = document.getElementById("summaryTown");
-      const summaryService = document.getElementById("summaryService");
-      const generatedMessage = document.getElementById("generatedMessage");
-
       function formatDate(value) {
         if (!value) return "Fecha por confirmar";
 
@@ -1429,6 +1375,7 @@
         if (parts.length !== 3) return value;
 
         const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+
         return date.toLocaleDateString("es-PR", {
           weekday: "long",
           year: "numeric",
@@ -1458,7 +1405,7 @@
           "SOLICITUD DE CITA - BRILLIANT HOME BY ISA
 
 " +
-          "Nombre: " + data.name + "
+          "Nombre completo: " + data.name + "
 " +
           "Fecha del servicio: " + data.date + "
 " +
@@ -1470,36 +1417,13 @@
         );
       }
 
-      function updateEverything() {
+      function sendToWhatsApp() {
         const data = collectData();
         const message = buildMessage(data);
+        const url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
 
-        if (summaryName) summaryName.textContent = data.name;
-        if (summaryDate) summaryDate.textContent = data.date;
-        if (summaryTime) summaryTime.textContent = data.time;
-        if (summaryTown) summaryTown.textContent = data.town;
-        if (summaryService) summaryService.textContent = data.service;
-        if (generatedMessage) generatedMessage.value = message;
-
-        return {
-          data: data,
-          message: message,
-          url: "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message)
-        };
+        window.location.href = url;
       }
-
-      function sendToWhatsApp() {
-        const result = updateEverything();
-
-        // En móvil, cambiar location.href suele ser más confiable que window.open.
-        window.location.href = result.url;
-      }
-
-      [clientName, appointmentDate, timeSelect, townInput, serviceType].forEach(function (field) {
-        if (!field) return;
-        field.addEventListener("input", updateEverything);
-        field.addEventListener("change", updateEverything);
-      });
 
       if (bookingWhatsapp) {
         bookingWhatsapp.addEventListener("click", function (event) {
@@ -1507,10 +1431,9 @@
           sendToWhatsApp();
         });
       }
-
-      updateEverything();
     })();
   </script>
+
 
 
 
