@@ -1372,15 +1372,15 @@
           </div>
 
           <div class="message-preview">
-            <label for="generatedMessage">Mensaje que se enviará por WhatsApp</label>
+            <label for="generatedMessage">Datos del formulario que se enviarán por WhatsApp</label>
             <textarea id="generatedMessage" readonly></textarea>
-            <small>Este mensaje se actualiza automáticamente con lo que llenes arriba.</small>
+            <small>Aquí debe aparecer: nombre, fecha del servicio, hora preferida, pueblo y tipo de servicio.</small>
           </div>
 
           <button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar solicitud por WhatsApp</button>
 
           <p class="calendar-small">
-            Si WhatsApp abre sin texto, copia el mensaje de arriba y pégalo en WhatsApp.
+            Al presionar enviar, WhatsApp abrirá con estos datos del formulario.
           </p>
         </div>
       </form>
@@ -1455,23 +1455,18 @@
 
       function buildMessage(data) {
         return (
-          "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
+          "SOLICITUD DE CITA - BRILLIANT HOME BY ISA
 
 " +
-          "📌 DATOS DE LA SOLICITUD
+          "Nombre: " + data.name + "
 " +
-          "👤 Nombre: " + data.name + "
+          "Fecha del servicio: " + data.date + "
 " +
-          "📅 Fecha tentativa: " + data.date + "
+          "Hora preferida: " + data.time + "
 " +
-          "🕒 Hora preferida: " + data.time + "
+          "Pueblo: " + data.town + "
 " +
-          "📍 Pueblo: " + data.town + "
-" +
-          "🧹 Servicio: " + data.service + "
-
-" +
-          "¿Me pueden confirmar disponibilidad y precio? Gracias."
+          "Tipo de servicio: " + data.service
         );
       }
 
