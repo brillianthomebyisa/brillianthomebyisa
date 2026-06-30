@@ -1136,6 +1136,48 @@
       filter: brightness(1.05);
     }
 
+
+    .message-preview {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .message-preview label {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #5a246b;
+      font-weight: 900;
+    }
+
+    .message-preview textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      border: 1px solid rgba(75,15,100,.18);
+      border-radius: 18px;
+      padding: 13px 14px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.45;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 8px 18px rgba(75,15,100,.08);
+    }
+
+    .message-preview small {
+      color: #7c5288;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .submit-whatsapp {
+      border: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
   </style>
 </head>
 
@@ -1329,12 +1371,16 @@
             </div>
           </div>
 
-          <a class="submit-whatsapp" id="bookingWhatsapp" href="https://wa.me/17875490483" target="_blank" rel="noopener noreferrer">
-            💬 Enviar solicitud por WhatsApp
-          </a>
+          <div class="message-preview">
+            <label for="generatedMessage">Mensaje que se enviará por WhatsApp</label>
+            <textarea id="generatedMessage" readonly></textarea>
+            <small>Este mensaje se actualiza automáticamente con lo que llenes arriba.</small>
+          </div>
+
+          <button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar solicitud por WhatsApp</button>
 
           <p class="calendar-small">
-            El botón abre WhatsApp con todos los datos escritos. Solo revisa y envía.
+            Si WhatsApp abre sin texto, copia el mensaje de arriba y pégalo en WhatsApp.
           </p>
         </div>
       </form>
@@ -1357,6 +1403,7 @@
 
 
 
+
   <script>
     (function () {
       const phoneNumber = "17875490483";
@@ -1373,6 +1420,7 @@
       const summaryTime = document.getElementById("summaryTime");
       const summaryTown = document.getElementById("summaryTown");
       const summaryService = document.getElementById("summaryService");
+      const generatedMessage = document.getElementById("generatedMessage");
 
       function formatDate(value) {
         if (!value) return "Fecha por confirmar";
@@ -1381,7 +1429,6 @@
         if (parts.length !== 3) return value;
 
         const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-
         return date.toLocaleDateString("es-PR", {
           weekday: "long",
           year: "numeric",
@@ -1390,9 +1437,9 @@
         });
       }
 
-      function cleanValue(input, fallback) {
-        if (!input) return fallback;
-        const value = (input.value || "").trim();
+      function cleanValue(element, fallback) {
+        if (!element) return fallback;
+        const value = (element.value || "").trim();
         return value || fallback;
       }
 
@@ -1428,40 +1475,48 @@
         );
       }
 
-      function updateSummaryAndLink() {
+      function updateEverything() {
         const data = collectData();
+        const message = buildMessage(data);
 
         if (summaryName) summaryName.textContent = data.name;
         if (summaryDate) summaryDate.textContent = data.date;
         if (summaryTime) summaryTime.textContent = data.time;
         if (summaryTown) summaryTown.textContent = data.town;
         if (summaryService) summaryService.textContent = data.service;
+        if (generatedMessage) generatedMessage.value = message;
 
-        const message = buildMessage(data);
-        const whatsappUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+        return {
+          data: data,
+          message: message,
+          url: "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message)
+        };
+      }
 
-        if (bookingWhatsapp) {
-          bookingWhatsapp.href = whatsappUrl;
-        }
+      function sendToWhatsApp() {
+        const result = updateEverything();
 
-        return whatsappUrl;
+        // En móvil, cambiar location.href suele ser más confiable que window.open.
+        window.location.href = result.url;
       }
 
       [clientName, appointmentDate, timeSelect, townInput, serviceType].forEach(function (field) {
         if (!field) return;
-        field.addEventListener("input", updateSummaryAndLink);
-        field.addEventListener("change", updateSummaryAndLink);
+        field.addEventListener("input", updateEverything);
+        field.addEventListener("change", updateEverything);
       });
 
       if (bookingWhatsapp) {
-        bookingWhatsapp.addEventListener("click", function () {
-          updateSummaryAndLink();
+        bookingWhatsapp.addEventListener("click", function (event) {
+          event.preventDefault();
+          sendToWhatsApp();
         });
       }
 
-      updateSummaryAndLink();
+      updateEverything();
     })();
   </script>
+
 
 
 
