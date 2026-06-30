@@ -1017,6 +1017,108 @@
       }
     }
 
+
+    /* FORMULARIO NUEVO: reemplaza calendario custom por selector nativo de fecha */
+    .booking-panel-simple {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .professional-form {
+      position: relative;
+      z-index: 6;
+      border-radius: 26px;
+      background: rgba(255,255,255,.96);
+      color: var(--ink);
+      padding: 16px;
+      box-shadow: 0 16px 38px rgba(0,0,0,.24);
+      border: 1px solid rgba(255,255,255,.65);
+    }
+
+    .field-help {
+      display: block;
+      margin-top: -2px;
+      color: #7c5288;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .booking-form input[type="date"] {
+      appearance: auto;
+      -webkit-appearance: auto;
+      color-scheme: light;
+      cursor: pointer;
+      font-weight: 900;
+      background: #fff;
+    }
+
+    .booking-form input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 1;
+      transform: scale(1.15);
+      padding: 6px;
+    }
+
+    .booking-form input,
+    .booking-form select {
+      pointer-events: auto !important;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 8;
+    }
+
+    .clean-summary {
+      margin-top: 4px;
+      background: linear-gradient(135deg, rgba(75,15,100,.08), rgba(214,170,58,.18));
+    }
+
+    .submit-whatsapp {
+      width: 100%;
+      min-height: 58px;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(135deg, #a95bd0, #3b064d);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 17px;
+      font-weight: 900;
+      box-shadow: 0 14px 32px rgba(0,0,0,.28);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .submit-whatsapp:active {
+      transform: scale(.98);
+    }
+
+    @media (min-width: 820px) {
+      .booking-panel-simple {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 699px) {
+      .booking-panel-simple {
+        padding-bottom: 8px;
+      }
+
+      .professional-form {
+        padding: 15px;
+        border-radius: 24px;
+      }
+
+      .booking-form input,
+      .booking-form select {
+        min-height: 54px;
+        font-size: 16px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1102,50 +1204,21 @@
       <div class="owner-signature">Con cariño, Isa</div>
     </section>
 
-    <section class="calendar-section" aria-label="Calendario de disponibilidad">
+    <section class="calendar-section" aria-label="Formulario de solicitud de cita">
       <div class="section-label">Agenda tu servicio</div>
       <h2>Solicitud de cita</h2>
       <p class="calendar-note">
-        Completa los datos, selecciona una fecha tentativa y envía la solicitud por WhatsApp.
+        Completa la información, escoge la fecha en el calendario y envía la solicitud por WhatsApp.
         La cita se confirma según disponibilidad.
       </p>
 
-      <div class="booking-panel">
-        <div class="calendar-box">
+      <form class="booking-panel-simple" id="bookingForm">
+        <div class="form-card professional-form">
           <div class="step-title">
             <span>1</span>
             <div>
-              <strong>Selecciona una fecha</strong>
-              <small>Escoge el día que prefieres para el servicio</small>
-            </div>
-          </div>
-
-          <div class="calendar-head">
-            <button type="button" id="prevMonth" aria-label="Mes anterior">‹</button>
-            <div id="monthTitle">Mes</div>
-            <button type="button" id="nextMonth" aria-label="Mes siguiente">›</button>
-          </div>
-
-          <div class="calendar-week" aria-hidden="true">
-            <div>Dom</div>
-            <div>Lun</div>
-            <div>Mar</div>
-            <div>Mié</div>
-            <div>Jue</div>
-            <div>Vie</div>
-            <div>Sáb</div>
-          </div>
-
-          <div class="calendar-days" id="calendarDays"></div>
-          <div class="selected-date-text" id="selectedDateText">Selecciona una fecha</div>
-        </div>
-
-        <div class="form-card">
-          <div class="step-title">
-            <span>2</span>
-            <div>
-              <strong>Datos de la solicitud</strong>
-              <small>Esta información se enviará por WhatsApp</small>
+              <strong>Información del cliente</strong>
+              <small>Datos necesarios para preparar la cotización</small>
             </div>
           </div>
 
@@ -1156,14 +1229,9 @@
             </div>
 
             <div class="field-group">
-              <label for="serviceType">Tipo de servicio</label>
-              <select id="serviceType">
-                <option value="Limpieza de hogar">Limpieza de hogar</option>
-                <option value="Limpieza de apartamento">Limpieza de apartamento</option>
-                <option value="Limpieza de Airbnb">Limpieza de Airbnb</option>
-                <option value="Limpieza profunda">Limpieza profunda</option>
-                <option value="Mantenimiento">Mantenimiento</option>
-              </select>
+              <label for="appointmentDate">Fecha del servicio</label>
+              <input id="appointmentDate" type="date">
+              <small class="field-help">Toca el campo para escoger mes, día y año.</small>
             </div>
 
             <div class="field-row">
@@ -1198,10 +1266,30 @@
                 </select>
               </div>
             </div>
+
+            <div class="field-group">
+              <label for="serviceType">Tipo de servicio</label>
+              <select id="serviceType">
+                <option value="Limpieza de hogar">Limpieza de hogar</option>
+                <option value="Limpieza de apartamento">Limpieza de apartamento</option>
+                <option value="Limpieza de Airbnb">Limpieza de Airbnb</option>
+                <option value="Limpieza profunda">Limpieza profunda</option>
+                <option value="Mantenimiento">Mantenimiento</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card professional-form">
+          <div class="step-title">
+            <span>2</span>
+            <div>
+              <strong>Resumen de solicitud</strong>
+              <small>Revisa los datos antes de enviar por WhatsApp</small>
+            </div>
           </div>
 
-          <div class="request-summary" aria-label="Resumen de solicitud">
-            <h3>Resumen de solicitud</h3>
+          <div class="request-summary clean-summary">
             <div class="summary-line">
               <span>Cliente</span>
               <strong id="summaryName">Nombre por confirmar</strong>
@@ -1211,10 +1299,6 @@
               <strong id="summaryDate">Fecha por confirmar</strong>
             </div>
             <div class="summary-line">
-              <span>Servicio</span>
-              <strong id="summaryService">Limpieza de hogar</strong>
-            </div>
-            <div class="summary-line">
               <span>Horario</span>
               <strong id="summaryTime">Mañana</strong>
             </div>
@@ -1222,17 +1306,21 @@
               <span>Pueblo</span>
               <strong id="summaryTown">Pueblo por confirmar</strong>
             </div>
+            <div class="summary-line">
+              <span>Servicio</span>
+              <strong id="summaryService">Limpieza de hogar</strong>
+            </div>
           </div>
 
-          <a class="calendar-whatsapp" id="bookingWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
+          <button class="submit-whatsapp" type="submit">
             💬 Enviar solicitud por WhatsApp
-          </a>
+          </button>
 
           <p class="calendar-small">
-            Al presionar WhatsApp se abre un mensaje profesional con todos los datos listos para enviar.
+            El botón abre WhatsApp con todos los datos escritos. Solo revisa y envía.
           </p>
         </div>
-      </div>
+      </form>
     </section>
 
     <section class="closing">
@@ -1250,41 +1338,29 @@
 
 
 
+
   <script>
     (function () {
       const phoneNumber = "17875490483";
 
-      const monthTitle = document.getElementById("monthTitle");
-      const calendarDays = document.getElementById("calendarDays");
-      const selectedDateText = document.getElementById("selectedDateText");
-      const bookingWhatsapp = document.getElementById("bookingWhatsapp");
-
+      const form = document.getElementById("bookingForm");
       const clientName = document.getElementById("clientName");
-      const serviceType = document.getElementById("serviceType");
+      const appointmentDate = document.getElementById("appointmentDate");
       const timeSelect = document.getElementById("timeSelect");
       const townInput = document.getElementById("townInput");
+      const serviceType = document.getElementById("serviceType");
 
       const summaryName = document.getElementById("summaryName");
       const summaryDate = document.getElementById("summaryDate");
-      const summaryService = document.getElementById("summaryService");
       const summaryTime = document.getElementById("summaryTime");
       const summaryTown = document.getElementById("summaryTown");
+      const summaryService = document.getElementById("summaryService");
 
-      if (!monthTitle || !calendarDays || !selectedDateText || !bookingWhatsapp) {
-        return;
-      }
-
-      const monthNames = [
-        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-      ];
-
-      let today = new Date();
-      let viewYear = today.getFullYear();
-      let viewMonth = today.getMonth();
-      let selectedDate = null;
-
-      function formatDate(date) {
+      function formatDate(value) {
+        if (!value) return "Fecha por confirmar";
+        const parts = value.split("-");
+        if (parts.length !== 3) return value;
+        const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
         return date.toLocaleDateString("es-PR", {
           weekday: "long",
           year: "numeric",
@@ -1293,34 +1369,30 @@
         });
       }
 
-      function valueOrFallback(input, fallback) {
+      function cleanValue(input, fallback) {
         if (!input) return fallback;
         const value = (input.value || "").trim();
         return value || fallback;
       }
 
-      function getCleanName() {
-        return valueOrFallback(clientName, "Nombre por confirmar");
-      }
-
-      function getCleanTown() {
-        return valueOrFallback(townInput, "Pueblo por confirmar");
-      }
-
-      function getSelectedDateText() {
-        return selectedDate ? formatDate(selectedDate) : "Fecha por confirmar";
-      }
-
       function updateSummary() {
-        if (summaryName) summaryName.textContent = getCleanName();
-        if (summaryDate) summaryDate.textContent = getSelectedDateText();
-        if (summaryService) summaryService.textContent = serviceType ? serviceType.value : "Servicio por confirmar";
-        if (summaryTime) summaryTime.textContent = timeSelect ? timeSelect.value : "Hora por confirmar";
-        if (summaryTown) summaryTown.textContent = getCleanTown();
+        const name = cleanValue(clientName, "Nombre por confirmar");
+        const date = formatDate(appointmentDate ? appointmentDate.value : "");
+        const time = cleanValue(timeSelect, "Hora por confirmar");
+        const town = cleanValue(townInput, "Pueblo por confirmar");
+        const service = cleanValue(serviceType, "Servicio por confirmar");
+
+        if (summaryName) summaryName.textContent = name;
+        if (summaryDate) summaryDate.textContent = date;
+        if (summaryTime) summaryTime.textContent = time;
+        if (summaryTown) summaryTown.textContent = town;
+        if (summaryService) summaryService.textContent = service;
+
+        return { name, date, time, town, service };
       }
 
-      function updateWhatsAppLink() {
-        updateSummary();
+      function openWhatsApp() {
+        const data = updateSummary();
 
         const message =
           "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
@@ -1328,107 +1400,40 @@
 " +
           "📌 DATOS DE LA SOLICITUD
 " +
-          "👤 Nombre: " + getCleanName() + "
+          "👤 Nombre: " + data.name + "
 " +
-          "📅 Fecha tentativa: " + getSelectedDateText() + "
+          "📅 Fecha tentativa: " + data.date + "
 " +
-          "🧹 Servicio: " + (serviceType ? serviceType.value : "Servicio por confirmar") + "
+          "🕒 Hora preferida: " + data.time + "
 " +
-          "🕒 Hora preferida: " + (timeSelect ? timeSelect.value : "Hora por confirmar") + "
+          "📍 Pueblo: " + data.town + "
 " +
-          "📍 Pueblo: " + getCleanTown() + "
+          "🧹 Servicio: " + data.service + "
 
 " +
           "¿Me pueden confirmar disponibilidad y precio? Gracias.";
 
-        bookingWhatsapp.setAttribute(
-          "href",
-          "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message)
-        );
+        const url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+        window.open(url, "_blank", "noopener,noreferrer");
       }
 
-      function sameDate(a, b) {
-        return a && b &&
-          a.getFullYear() === b.getFullYear() &&
-          a.getMonth() === b.getMonth() &&
-          a.getDate() === b.getDate();
-      }
-
-      function renderCalendar() {
-        calendarDays.innerHTML = "";
-        monthTitle.textContent = monthNames[viewMonth] + " " + viewYear;
-
-        const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-
-        for (let i = 0; i < firstDay; i++) {
-          const empty = document.createElement("button");
-          empty.className = "day empty";
-          empty.type = "button";
-          empty.disabled = true;
-          empty.setAttribute("aria-hidden", "true");
-          calendarDays.appendChild(empty);
-        }
-
-        for (let day = 1; day <= daysInMonth; day++) {
-          const btn = document.createElement("button");
-          const btnDate = new Date(viewYear, viewMonth, day);
-
-          btn.className = "day";
-          btn.type = "button";
-          btn.textContent = day;
-          btn.setAttribute("aria-label", "Seleccionar " + formatDate(btnDate));
-
-          if (sameDate(btnDate, today)) btn.classList.add("today");
-          if (sameDate(btnDate, selectedDate)) btn.classList.add("selected");
-
-          btn.addEventListener("click", function () {
-            selectedDate = new Date(viewYear, viewMonth, day);
-            selectedDateText.textContent = formatDate(selectedDate);
-            renderCalendar();
-            updateWhatsAppLink();
-          });
-
-          calendarDays.appendChild(btn);
-        }
-
-        updateWhatsAppLink();
-      }
-
-      const prev = document.getElementById("prevMonth");
-      const next = document.getElementById("nextMonth");
-
-      if (prev) {
-        prev.addEventListener("click", function () {
-          viewMonth -= 1;
-          if (viewMonth < 0) {
-            viewMonth = 11;
-            viewYear -= 1;
-          }
-          renderCalendar();
-        });
-      }
-
-      if (next) {
-        next.addEventListener("click", function () {
-          viewMonth += 1;
-          if (viewMonth > 11) {
-            viewMonth = 0;
-            viewYear += 1;
-          }
-          renderCalendar();
-        });
-      }
-
-      [clientName, serviceType, timeSelect, townInput].forEach(function (el) {
-        if (!el) return;
-        el.addEventListener("input", updateWhatsAppLink);
-        el.addEventListener("change", updateWhatsAppLink);
+      [clientName, appointmentDate, timeSelect, townInput, serviceType].forEach(function (field) {
+        if (!field) return;
+        field.addEventListener("input", updateSummary);
+        field.addEventListener("change", updateSummary);
       });
 
-      renderCalendar();
+      if (form) {
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          openWhatsApp();
+        });
+      }
+
+      updateSummary();
     })();
   </script>
+
 
 
 
