@@ -628,6 +628,325 @@
       font-weight: 700;
     }
 
+
+    .circle-wrap {
+      animation: logoFloat 4s ease-in-out infinite, logoGlow 2.8s ease-in-out infinite, popIn .9s ease both !important;
+    }
+
+    .circle-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent,
+        rgba(255, 241, 184, .85),
+        transparent,
+        rgba(255, 255, 255, .70),
+        transparent
+      );
+      animation: logoSpin 5s linear infinite;
+      z-index: -1;
+      filter: blur(1px);
+    }
+
+    .circle-wrap img {
+      animation: logoBreath 3.5s ease-in-out infinite;
+    }
+
+    .mini-pill {
+      animation: badgeBounce 2.3s ease-in-out infinite;
+    }
+
+    .brand {
+      position: relative;
+      animation: textFloat 4s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .brand::after {
+      content: "";
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.55) 45%, transparent 65%);
+      transform: translateX(-140%);
+      animation: textShine 3.8s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .logo {
+      position: relative;
+      animation: textFloat 4s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.45) 45%, transparent 65%);
+      transform: translateX(-140%);
+      animation: textShine 3.8s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-1deg) scale(1);
+      }
+      25% {
+        transform: translateY(-8px) rotate(1.5deg) scale(1.015);
+      }
+      50% {
+        transform: translateY(-14px) rotate(0deg) scale(1.025);
+      }
+      75% {
+        transform: translateY(-7px) rotate(-1.5deg) scale(1.012);
+      }
+    }
+
+    @keyframes logoGlow {
+      0%, 100% {
+        box-shadow: 0 24px 60px rgba(0,0,0,.42), 0 0 0 rgba(255,241,184,0);
+      }
+      50% {
+        box-shadow: 0 30px 78px rgba(0,0,0,.46), 0 0 38px rgba(255,241,184,.65);
+      }
+    }
+
+    @keyframes logoSpin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes logoBreath {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.035);
+      }
+    }
+
+    @keyframes badgeBounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-6px) scale(1.04);
+      }
+    }
+
+    @keyframes textFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes textShine {
+      0% {
+        transform: translateX(-140%) skewX(-15deg);
+        opacity: 0;
+      }
+      35% {
+        opacity: .85;
+      }
+      65% {
+        transform: translateX(140%) skewX(-15deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(140%) skewX(-15deg);
+        opacity: 0;
+      }
+    }
+
+
+    .section-label {
+      width: fit-content;
+      margin: 0 auto 10px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+
+    .booking-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-card {
+      border-radius: 24px;
+      background: rgba(255,255,255,.94);
+      color: var(--ink);
+      padding: 16px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.24);
+    }
+
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .step-title span {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+      flex: 0 0 auto;
+    }
+
+    .step-title strong {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 19px;
+      color: var(--ink);
+      line-height: 1.05;
+    }
+
+    .step-title small {
+      display: block;
+      color: #6a3b77;
+      font-weight: 700;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .booking-form {
+      gap: 12px;
+    }
+
+    .booking-form label {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #5a246b;
+      letter-spacing: .2px;
+    }
+
+    .booking-form input,
+    .booking-form select {
+      min-height: 50px;
+      border: 1px solid rgba(75,15,100,.22);
+      border-radius: 18px;
+      background-color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 8px 18px rgba(75,15,100,.08);
+    }
+
+    .request-summary {
+      margin-top: 14px;
+      padding: 15px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(75,15,100,.08), rgba(214,170,58,.16));
+      border: 1px solid rgba(75,15,100,.10);
+    }
+
+    .request-summary h3 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 21px;
+      color: var(--ink);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(75,15,100,.10);
+      font-size: 14px;
+    }
+
+    .summary-line:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-line span {
+      color: #6a3b77;
+      font-weight: 800;
+    }
+
+    .summary-line strong {
+      color: var(--ink);
+      text-align: right;
+      max-width: 60%;
+    }
+
+    .calendar-whatsapp {
+      min-height: 56px;
+      font-size: 17px;
+      border: 0;
+    }
+
+    @media (min-width: 820px) {
+      .booking-panel {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+
+      .field-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .calendar-section h2 {
+        font-size: 30px;
+      }
+
+      .form-card,
+      .calendar-box {
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      .summary-line {
+        align-items: flex-start;
+      }
+    }
+
   </style>
 </head>
 
@@ -714,80 +1033,135 @@
     </section>
 
     <section class="calendar-section" aria-label="Calendario de disponibilidad">
-      <h2>Calendario de cita</h2>
+      <div class="section-label">Agenda tu servicio</div>
+      <h2>Solicitud de cita</h2>
       <p class="calendar-note">
-        Escoge una fecha tentativa, el tipo de servicio y envía tu solicitud por WhatsApp para confirmar disponibilidad.
+        Completa los datos, selecciona una fecha tentativa y envía la solicitud por WhatsApp.
+        La cita se confirma según disponibilidad.
       </p>
 
-      <div class="calendar-box">
-        <div class="calendar-head">
-          <button type="button" id="prevMonth" aria-label="Mes anterior">‹</button>
-          <div id="monthTitle">Mes</div>
-          <button type="button" id="nextMonth" aria-label="Mes siguiente">›</button>
+      <div class="booking-panel">
+        <div class="calendar-box">
+          <div class="step-title">
+            <span>1</span>
+            <div>
+              <strong>Selecciona una fecha</strong>
+              <small>Escoge el día que prefieres para el servicio</small>
+            </div>
+          </div>
+
+          <div class="calendar-head">
+            <button type="button" id="prevMonth" aria-label="Mes anterior">‹</button>
+            <div id="monthTitle">Mes</div>
+            <button type="button" id="nextMonth" aria-label="Mes siguiente">›</button>
+          </div>
+
+          <div class="calendar-week" aria-hidden="true">
+            <div>Dom</div>
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+          </div>
+
+          <div class="calendar-days" id="calendarDays"></div>
+          <div class="selected-date-text" id="selectedDateText">Selecciona una fecha</div>
         </div>
 
-        <div class="calendar-week" aria-hidden="true">
-          <div>Dom</div>
-          <div>Lun</div>
-          <div>Mar</div>
-          <div>Mié</div>
-          <div>Jue</div>
-          <div>Vie</div>
-          <div>Sáb</div>
+        <div class="form-card">
+          <div class="step-title">
+            <span>2</span>
+            <div>
+              <strong>Datos de la solicitud</strong>
+              <small>Esta información se enviará por WhatsApp</small>
+            </div>
+          </div>
+
+          <div class="booking-form">
+            <div class="field-group">
+              <label for="clientName">Nombre completo</label>
+              <input id="clientName" type="text" placeholder="Ejemplo: María Rivera" autocomplete="name">
+            </div>
+
+            <div class="field-group">
+              <label for="serviceType">Tipo de servicio</label>
+              <select id="serviceType">
+                <option value="Limpieza de hogar">Limpieza de hogar</option>
+                <option value="Limpieza de apartamento">Limpieza de apartamento</option>
+                <option value="Limpieza de Airbnb">Limpieza de Airbnb</option>
+                <option value="Limpieza profunda">Limpieza profunda</option>
+                <option value="Mantenimiento">Mantenimiento</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="timeSelect">Hora preferida</label>
+                <select id="timeSelect">
+                  <option value="Mañana">Mañana</option>
+                  <option value="Mediodía">Mediodía</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="A confirmar">A confirmar</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="townInput">Pueblo</label>
+                <select id="townInput">
+                  <option value="Pueblo por confirmar">Selecciona tu pueblo</option>
+                  <option value="Caguas">Caguas</option>
+                  <option value="Canóvanas">Canóvanas</option>
+                  <option value="Ceiba">Ceiba</option>
+                  <option value="Fajardo">Fajardo</option>
+                  <option value="Gurabo">Gurabo</option>
+                  <option value="Humacao">Humacao</option>
+                  <option value="Juncos">Juncos</option>
+                  <option value="Las Piedras">Las Piedras</option>
+                  <option value="Luquillo">Luquillo</option>
+                  <option value="Naguabo">Naguabo</option>
+                  <option value="Río Grande">Río Grande</option>
+                  <option value="San Lorenzo">San Lorenzo</option>
+                  <option value="Yabucoa">Yabucoa</option>
+                  <option value="Otro pueblo cercano">Otro pueblo cercano</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="request-summary" aria-label="Resumen de solicitud">
+            <h3>Resumen de solicitud</h3>
+            <div class="summary-line">
+              <span>Cliente</span>
+              <strong id="summaryName">Nombre por confirmar</strong>
+            </div>
+            <div class="summary-line">
+              <span>Fecha</span>
+              <strong id="summaryDate">Fecha por confirmar</strong>
+            </div>
+            <div class="summary-line">
+              <span>Servicio</span>
+              <strong id="summaryService">Limpieza de hogar</strong>
+            </div>
+            <div class="summary-line">
+              <span>Horario</span>
+              <strong id="summaryTime">Mañana</strong>
+            </div>
+            <div class="summary-line">
+              <span>Pueblo</span>
+              <strong id="summaryTown">Pueblo por confirmar</strong>
+            </div>
+          </div>
+
+          <a class="calendar-whatsapp" id="bookingWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
+            💬 Enviar solicitud por WhatsApp
+          </a>
+
+          <p class="calendar-small">
+            Al presionar WhatsApp se abre un mensaje profesional con todos los datos listos para enviar.
+          </p>
         </div>
-
-        <div class="calendar-days" id="calendarDays"></div>
-
-        <div class="selected-date-text" id="selectedDateText">Selecciona una fecha</div>
-
-        <div class="booking-form">
-          <label for="clientName">Nombre</label>
-          <input id="clientName" type="text" placeholder="Escribe tu nombre">
-
-          <label for="serviceType">Tipo de servicio</label>
-          <select id="serviceType">
-            <option value="Limpieza de hogar">Limpieza de hogar</option>
-            <option value="Limpieza de apartamento">Limpieza de apartamento</option>
-            <option value="Limpieza de Airbnb">Limpieza de Airbnb</option>
-            <option value="Limpieza profunda">Limpieza profunda</option>
-            <option value="Mantenimiento">Mantenimiento</option>
-          </select>
-
-          <label for="timeSelect">Hora preferida</label>
-          <select id="timeSelect">
-            <option value="Mañana">Mañana</option>
-            <option value="Mediodía">Mediodía</option>
-            <option value="Tarde">Tarde</option>
-            <option value="A confirmar">A confirmar</option>
-          </select>
-
-          <label for="townInput">Pueblo del área Este</label>
-          <select id="townInput">
-            <option value="Pueblo por confirmar">Selecciona tu pueblo</option>
-            <option value="Caguas">Caguas</option>
-            <option value="Canóvanas">Canóvanas</option>
-            <option value="Ceiba">Ceiba</option>
-            <option value="Fajardo">Fajardo</option>
-            <option value="Gurabo">Gurabo</option>
-            <option value="Humacao">Humacao</option>
-            <option value="Juncos">Juncos</option>
-            <option value="Las Piedras">Las Piedras</option>
-            <option value="Luquillo">Luquillo</option>
-            <option value="Naguabo">Naguabo</option>
-            <option value="Río Grande">Río Grande</option>
-            <option value="San Lorenzo">San Lorenzo</option>
-            <option value="Yabucoa">Yabucoa</option>
-            <option value="Otro pueblo cercano">Otro pueblo cercano</option>
-          </select>
-        </div>
-
-        <a class="calendar-whatsapp" id="bookingWhatsapp" href="#" target="_blank" rel="noopener noreferrer">
-          💬 Solicitar cita por WhatsApp
-        </a>
-
-        <p class="calendar-small">
-          La fecha no queda confirmada automáticamente. Se confirma por WhatsApp según disponibilidad.
-        </p>
       </div>
     </section>
 
@@ -804,16 +1178,25 @@
     </div>
   </nav>
 
+
   <script>
     const phoneNumber = "17875490483";
+
     const monthTitle = document.getElementById("monthTitle");
     const calendarDays = document.getElementById("calendarDays");
     const selectedDateText = document.getElementById("selectedDateText");
     const bookingWhatsapp = document.getElementById("bookingWhatsapp");
+
+    const clientName = document.getElementById("clientName");
     const serviceType = document.getElementById("serviceType");
     const timeSelect = document.getElementById("timeSelect");
     const townInput = document.getElementById("townInput");
-    const clientName = document.getElementById("clientName");
+
+    const summaryName = document.getElementById("summaryName");
+    const summaryDate = document.getElementById("summaryDate");
+    const summaryService = document.getElementById("summaryService");
+    const summaryTime = document.getElementById("summaryTime");
+    const summaryTown = document.getElementById("summaryTown");
 
     const monthNames = [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -834,17 +1217,54 @@
       });
     }
 
+    function getCleanName() {
+      return clientName.value.trim() || "Nombre por confirmar";
+    }
+
+    function getCleanTown() {
+      return townInput.value || "Pueblo por confirmar";
+    }
+
+    function getSelectedDateText() {
+      return selectedDate ? formatDate(selectedDate) : "Fecha por confirmar";
+    }
+
+    function updateSummary() {
+      summaryName.textContent = getCleanName();
+      summaryDate.textContent = getSelectedDateText();
+      summaryService.textContent = serviceType.value;
+      summaryTime.textContent = timeSelect.value;
+      summaryTown.textContent = getCleanTown();
+    }
+
     function updateWhatsAppLink() {
-      const dateText = selectedDate ? formatDate(selectedDate) : "fecha por confirmar";
-      const town = townInput.value || "pueblo por confirmar";
-      const name = clientName.value.trim() || "nombre por confirmar";
-      const message = `👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa. Nombre: ${name}. Fecha: ${dateText}. Servicio: ${serviceType.value}. Hora preferida: ${timeSelect.value}. Pueblo: ${town}. ¿Me pueden confirmar disponibilidad y precio?`;
-      bookingWhatsapp.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      updateSummary();
+
+      const message =
+        "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
+
+" +
+        "📌 DATOS DE LA SOLICITUD
+" +
+        "👤 Nombre: " + getCleanName() + "
+" +
+        "📅 Fecha tentativa: " + getSelectedDateText() + "
+" +
+        "🧹 Servicio: " + serviceType.value + "
+" +
+        "🕒 Hora preferida: " + timeSelect.value + "
+" +
+        "📍 Pueblo: " + getCleanTown() + "
+
+" +
+        "¿Me pueden confirmar disponibilidad y precio? Gracias.";
+
+      bookingWhatsapp.href = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
     }
 
     function renderCalendar() {
       calendarDays.innerHTML = "";
-      monthTitle.textContent = `${monthNames[viewMonth]} ${viewYear}`;
+      monthTitle.textContent = monthNames[viewMonth] + " " + viewYear;
 
       const firstDay = new Date(viewYear, viewMonth, 1).getDay();
       const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -866,22 +1286,19 @@
 
         const btnDate = new Date(viewYear, viewMonth, day);
 
-        if (
+        const isToday =
           btnDate.getFullYear() === today.getFullYear() &&
           btnDate.getMonth() === today.getMonth() &&
-          btnDate.getDate() === today.getDate()
-        ) {
-          btn.classList.add("today");
-        }
+          btnDate.getDate() === today.getDate();
 
-        if (
+        const isSelected =
           selectedDate &&
           btnDate.getFullYear() === selectedDate.getFullYear() &&
           btnDate.getMonth() === selectedDate.getMonth() &&
-          btnDate.getDate() === selectedDate.getDate()
-        ) {
-          btn.classList.add("selected");
-        }
+          btnDate.getDate() === selectedDate.getDate();
+
+        if (isToday) btn.classList.add("today");
+        if (isSelected) btn.classList.add("selected");
 
         btn.addEventListener("click", () => {
           selectedDate = btnDate;
@@ -914,13 +1331,14 @@
       renderCalendar();
     });
 
+    clientName.addEventListener("input", updateWhatsAppLink);
     serviceType.addEventListener("change", updateWhatsAppLink);
     timeSelect.addEventListener("change", updateWhatsAppLink);
     townInput.addEventListener("change", updateWhatsAppLink);
-    clientName.addEventListener("input", updateWhatsAppLink);
 
     renderCalendar();
   </script>
+
 
 </body>
 </html>
