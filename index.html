@@ -947,6 +947,76 @@
       }
     }
 
+
+    /* FIX CALENDARIO: táctil, usable y sin bloquearse en móvil */
+    .calendar-section,
+    .calendar-box,
+    .form-card,
+    .calendar-days,
+    .calendar-head {
+      position: relative;
+      z-index: 5;
+    }
+
+    .calendar-section {
+      scroll-margin-bottom: 120px;
+      padding-bottom: 26px;
+    }
+
+    .calendar-days .day,
+    .calendar-head button {
+      pointer-events: auto !important;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+
+    .calendar-days .day {
+      display: grid;
+      place-items: center;
+      min-height: 46px;
+      width: 100%;
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .calendar-days .day.empty {
+      pointer-events: none !important;
+    }
+
+    .calendar-days .day:active,
+    .calendar-head button:active {
+      transform: scale(.96);
+    }
+
+    .calendar-whatsapp {
+      pointer-events: auto !important;
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 699px) {
+      body {
+        padding-bottom: 118px;
+      }
+
+      .calendar-section {
+        margin-bottom: 24px;
+      }
+
+      .calendar-days {
+        gap: 7px;
+      }
+
+      .day {
+        min-height: 44px;
+      }
+
+      .bottom-bar {
+        z-index: 20;
+      }
+    }
+
   </style>
 </head>
 
@@ -1179,165 +1249,187 @@
   </nav>
 
 
+
   <script>
-    const phoneNumber = "17875490483";
+    (function () {
+      const phoneNumber = "17875490483";
 
-    const monthTitle = document.getElementById("monthTitle");
-    const calendarDays = document.getElementById("calendarDays");
-    const selectedDateText = document.getElementById("selectedDateText");
-    const bookingWhatsapp = document.getElementById("bookingWhatsapp");
+      const monthTitle = document.getElementById("monthTitle");
+      const calendarDays = document.getElementById("calendarDays");
+      const selectedDateText = document.getElementById("selectedDateText");
+      const bookingWhatsapp = document.getElementById("bookingWhatsapp");
 
-    const clientName = document.getElementById("clientName");
-    const serviceType = document.getElementById("serviceType");
-    const timeSelect = document.getElementById("timeSelect");
-    const townInput = document.getElementById("townInput");
+      const clientName = document.getElementById("clientName");
+      const serviceType = document.getElementById("serviceType");
+      const timeSelect = document.getElementById("timeSelect");
+      const townInput = document.getElementById("townInput");
 
-    const summaryName = document.getElementById("summaryName");
-    const summaryDate = document.getElementById("summaryDate");
-    const summaryService = document.getElementById("summaryService");
-    const summaryTime = document.getElementById("summaryTime");
-    const summaryTown = document.getElementById("summaryTown");
+      const summaryName = document.getElementById("summaryName");
+      const summaryDate = document.getElementById("summaryDate");
+      const summaryService = document.getElementById("summaryService");
+      const summaryTime = document.getElementById("summaryTime");
+      const summaryTown = document.getElementById("summaryTown");
 
-    const monthNames = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
-
-    let currentDate = new Date();
-    let viewYear = currentDate.getFullYear();
-    let viewMonth = currentDate.getMonth();
-    let selectedDate = null;
-
-    function formatDate(date) {
-      return date.toLocaleDateString("es-PR", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-    }
-
-    function getCleanName() {
-      return clientName.value.trim() || "Nombre por confirmar";
-    }
-
-    function getCleanTown() {
-      return townInput.value || "Pueblo por confirmar";
-    }
-
-    function getSelectedDateText() {
-      return selectedDate ? formatDate(selectedDate) : "Fecha por confirmar";
-    }
-
-    function updateSummary() {
-      summaryName.textContent = getCleanName();
-      summaryDate.textContent = getSelectedDateText();
-      summaryService.textContent = serviceType.value;
-      summaryTime.textContent = timeSelect.value;
-      summaryTown.textContent = getCleanTown();
-    }
-
-    function updateWhatsAppLink() {
-      updateSummary();
-
-      const message =
-        "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
-
-" +
-        "📌 DATOS DE LA SOLICITUD
-" +
-        "👤 Nombre: " + getCleanName() + "
-" +
-        "📅 Fecha tentativa: " + getSelectedDateText() + "
-" +
-        "🧹 Servicio: " + serviceType.value + "
-" +
-        "🕒 Hora preferida: " + timeSelect.value + "
-" +
-        "📍 Pueblo: " + getCleanTown() + "
-
-" +
-        "¿Me pueden confirmar disponibilidad y precio? Gracias.";
-
-      bookingWhatsapp.href = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
-    }
-
-    function renderCalendar() {
-      calendarDays.innerHTML = "";
-      monthTitle.textContent = monthNames[viewMonth] + " " + viewYear;
-
-      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-      const today = new Date();
-
-      for (let i = 0; i < firstDay; i++) {
-        const empty = document.createElement("button");
-        empty.className = "day empty";
-        empty.type = "button";
-        empty.disabled = true;
-        calendarDays.appendChild(empty);
+      if (!monthTitle || !calendarDays || !selectedDateText || !bookingWhatsapp) {
+        return;
       }
 
-      for (let day = 1; day <= daysInMonth; day++) {
-        const btn = document.createElement("button");
-        btn.className = "day";
-        btn.type = "button";
-        btn.textContent = day;
+      const monthNames = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ];
 
-        const btnDate = new Date(viewYear, viewMonth, day);
+      let today = new Date();
+      let viewYear = today.getFullYear();
+      let viewMonth = today.getMonth();
+      let selectedDate = null;
 
-        const isToday =
-          btnDate.getFullYear() === today.getFullYear() &&
-          btnDate.getMonth() === today.getMonth() &&
-          btnDate.getDate() === today.getDate();
-
-        const isSelected =
-          selectedDate &&
-          btnDate.getFullYear() === selectedDate.getFullYear() &&
-          btnDate.getMonth() === selectedDate.getMonth() &&
-          btnDate.getDate() === selectedDate.getDate();
-
-        if (isToday) btn.classList.add("today");
-        if (isSelected) btn.classList.add("selected");
-
-        btn.addEventListener("click", () => {
-          selectedDate = btnDate;
-          selectedDateText.textContent = formatDate(selectedDate);
-          renderCalendar();
-          updateWhatsAppLink();
+      function formatDate(date) {
+        return date.toLocaleDateString("es-PR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
         });
-
-        calendarDays.appendChild(btn);
       }
 
-      updateWhatsAppLink();
-    }
-
-    document.getElementById("prevMonth").addEventListener("click", () => {
-      viewMonth--;
-      if (viewMonth < 0) {
-        viewMonth = 11;
-        viewYear--;
+      function valueOrFallback(input, fallback) {
+        if (!input) return fallback;
+        const value = (input.value || "").trim();
+        return value || fallback;
       }
+
+      function getCleanName() {
+        return valueOrFallback(clientName, "Nombre por confirmar");
+      }
+
+      function getCleanTown() {
+        return valueOrFallback(townInput, "Pueblo por confirmar");
+      }
+
+      function getSelectedDateText() {
+        return selectedDate ? formatDate(selectedDate) : "Fecha por confirmar";
+      }
+
+      function updateSummary() {
+        if (summaryName) summaryName.textContent = getCleanName();
+        if (summaryDate) summaryDate.textContent = getSelectedDateText();
+        if (summaryService) summaryService.textContent = serviceType ? serviceType.value : "Servicio por confirmar";
+        if (summaryTime) summaryTime.textContent = timeSelect ? timeSelect.value : "Hora por confirmar";
+        if (summaryTown) summaryTown.textContent = getCleanTown();
+      }
+
+      function updateWhatsAppLink() {
+        updateSummary();
+
+        const message =
+          "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
+
+" +
+          "📌 DATOS DE LA SOLICITUD
+" +
+          "👤 Nombre: " + getCleanName() + "
+" +
+          "📅 Fecha tentativa: " + getSelectedDateText() + "
+" +
+          "🧹 Servicio: " + (serviceType ? serviceType.value : "Servicio por confirmar") + "
+" +
+          "🕒 Hora preferida: " + (timeSelect ? timeSelect.value : "Hora por confirmar") + "
+" +
+          "📍 Pueblo: " + getCleanTown() + "
+
+" +
+          "¿Me pueden confirmar disponibilidad y precio? Gracias.";
+
+        bookingWhatsapp.setAttribute(
+          "href",
+          "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message)
+        );
+      }
+
+      function sameDate(a, b) {
+        return a && b &&
+          a.getFullYear() === b.getFullYear() &&
+          a.getMonth() === b.getMonth() &&
+          a.getDate() === b.getDate();
+      }
+
+      function renderCalendar() {
+        calendarDays.innerHTML = "";
+        monthTitle.textContent = monthNames[viewMonth] + " " + viewYear;
+
+        const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+          const empty = document.createElement("button");
+          empty.className = "day empty";
+          empty.type = "button";
+          empty.disabled = true;
+          empty.setAttribute("aria-hidden", "true");
+          calendarDays.appendChild(empty);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const btn = document.createElement("button");
+          const btnDate = new Date(viewYear, viewMonth, day);
+
+          btn.className = "day";
+          btn.type = "button";
+          btn.textContent = day;
+          btn.setAttribute("aria-label", "Seleccionar " + formatDate(btnDate));
+
+          if (sameDate(btnDate, today)) btn.classList.add("today");
+          if (sameDate(btnDate, selectedDate)) btn.classList.add("selected");
+
+          btn.addEventListener("click", function () {
+            selectedDate = new Date(viewYear, viewMonth, day);
+            selectedDateText.textContent = formatDate(selectedDate);
+            renderCalendar();
+            updateWhatsAppLink();
+          });
+
+          calendarDays.appendChild(btn);
+        }
+
+        updateWhatsAppLink();
+      }
+
+      const prev = document.getElementById("prevMonth");
+      const next = document.getElementById("nextMonth");
+
+      if (prev) {
+        prev.addEventListener("click", function () {
+          viewMonth -= 1;
+          if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear -= 1;
+          }
+          renderCalendar();
+        });
+      }
+
+      if (next) {
+        next.addEventListener("click", function () {
+          viewMonth += 1;
+          if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear += 1;
+          }
+          renderCalendar();
+        });
+      }
+
+      [clientName, serviceType, timeSelect, townInput].forEach(function (el) {
+        if (!el) return;
+        el.addEventListener("input", updateWhatsAppLink);
+        el.addEventListener("change", updateWhatsAppLink);
+      });
+
       renderCalendar();
-    });
-
-    document.getElementById("nextMonth").addEventListener("click", () => {
-      viewMonth++;
-      if (viewMonth > 11) {
-        viewMonth = 0;
-        viewYear++;
-      }
-      renderCalendar();
-    });
-
-    clientName.addEventListener("input", updateWhatsAppLink);
-    serviceType.addEventListener("change", updateWhatsAppLink);
-    timeSelect.addEventListener("change", updateWhatsAppLink);
-    townInput.addEventListener("change", updateWhatsAppLink);
-
-    renderCalendar();
+    })();
   </script>
+
 
 
 </body>
