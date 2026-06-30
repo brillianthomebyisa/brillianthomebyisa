@@ -1477,14 +1477,17 @@
       function buildWhatsAppMessage() {
         const data = collectFormData();
         return [
-          "Saludos, quiero saber más información de Brilliant Home By Isa.",
+          "👋 Saludos, quiero saber más información de Brilliant Home By Isa ✨",
           "",
-          "Mi nombre es: " + data.nombre,
-          "Fecha del servicio: " + data.fecha,
-          "Hora preferida: " + data.hora,
-          "Pueblo: " + data.pueblo,
-          "Tipo de servicio: " + data.servicio
-        ].join("\n");
+          "🧍 Mi nombre es: " + data.nombre,
+          "📅 Fecha del servicio: " + data.fecha,
+          "⏰ Hora preferida: " + data.hora,
+          "📍 Pueblo: " + data.pueblo,
+          "🧼 Tipo de servicio: " + data.servicio,
+          "",
+          "Gracias 🤍"
+        ].join("
+");
       }
 
       function updateSummary() {
