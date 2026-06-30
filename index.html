@@ -1189,6 +1189,28 @@
       pointer-events: auto !important;
     }
 
+
+    #bookingWhatsapp {
+      cursor: pointer;
+      border: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none !important;
+      width: 100%;
+      pointer-events: auto !important;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 999;
+    }
+
+    #bookingWhatsapp:active {
+      transform: scale(.98);
+    }
+
   </style>
 </head>
 
@@ -1375,7 +1397,7 @@
               <strong id="summaryService">Limpieza de hogar</strong>
             </div>
           </div>
-<a class="submit-whatsapp" id="bookingWhatsapp" href="#" onclick="return sendWhatsAppMessage(event);">💬 Enviar por WhatsApp</a>
+<button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar por WhatsApp</button>
 
           <p class="calendar-small">
             Al presionar enviar, WhatsApp abrirá con el mensaje y los datos que llenaste en el formulario.
@@ -1406,67 +1428,80 @@
 
 
 
+
   <script>
-    const phoneNumber = "17875490483";
+    (function () {
+      const phoneNumber = "17875490483";
 
-    function formatDate(value) {
-      if (!value) return "Fecha por confirmar";
+      function formatDate(value) {
+        if (!value) return "Fecha por confirmar";
 
-      const parts = value.split("-");
-      if (parts.length !== 3) return value;
+        const parts = value.split("-");
+        if (parts.length !== 3) return value;
 
-      const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
 
-      return date.toLocaleDateString("es-PR", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
+        return date.toLocaleDateString("es-PR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      }
+
+      function cleanValue(elementId, fallback) {
+        const element = document.getElementById(elementId);
+        if (!element) return fallback;
+
+        const value = (element.value || "").trim();
+        return value || fallback;
+      }
+
+      function buildWhatsAppMessage() {
+        const nombre = cleanValue("clientName", "Nombre por confirmar");
+        const fechaValue = cleanValue("appointmentDate", "");
+        const fecha = formatDate(fechaValue);
+        const hora = cleanValue("timeSelect", "Hora por confirmar");
+        const pueblo = cleanValue("townInput", "Pueblo por confirmar");
+        const servicio = cleanValue("serviceType", "Servicio por confirmar");
+
+        return (
+          "Saludos, quiero saber más información de Brilliant Home By Isa.
+
+" +
+          "Mi nombre es: " + nombre + "
+" +
+          "Fecha del servicio: " + fecha + "
+" +
+          "Hora preferida: " + hora + "
+" +
+          "Pueblo: " + pueblo + "
+" +
+          "Tipo de servicio: " + servicio
+        );
+      }
+
+      function openWhatsApp() {
+        const message = buildWhatsAppMessage();
+        const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+
+        window.location.assign(url);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const button = document.getElementById("bookingWhatsapp");
+
+        if (button) {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            openWhatsApp();
+          });
+        }
       });
-    }
-
-    function cleanValue(elementId, fallback) {
-      const element = document.getElementById(elementId);
-      if (!element) return fallback;
-
-      const value = (element.value || "").trim();
-      return value || fallback;
-    }
-
-    function buildWhatsAppMessage() {
-      const nombre = cleanValue("clientName", "Nombre por confirmar");
-      const fechaValue = cleanValue("appointmentDate", "");
-      const fecha = formatDate(fechaValue);
-      const hora = cleanValue("timeSelect", "Hora por confirmar");
-      const pueblo = cleanValue("townInput", "Pueblo por confirmar");
-      const servicio = cleanValue("serviceType", "Servicio por confirmar");
-
-      return (
-        "Saludos, quiero saber más información de Brilliant Home By Isa.
-
-" +
-        "Mi nombre es: " + nombre + "
-" +
-        "Fecha del servicio: " + fecha + "
-" +
-        "Hora preferida: " + hora + "
-" +
-        "Pueblo: " + pueblo + "
-" +
-        "Tipo de servicio: " + servicio
-      );
-    }
-
-    function sendWhatsAppMessage(event) {
-      if (event) event.preventDefault();
-
-      const message = buildWhatsAppMessage();
-      const url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
-
-      window.location.href = url;
-      return false;
-    }
+    })();
   </script>
+
 
 
 
