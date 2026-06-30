@@ -1218,7 +1218,6 @@
   <div class="sparkles" aria-hidden="true"></div>
 
   <main class="phone-page">
-    <div class="top-badge">✨ Estilo móvil premium</div>
 
     <section class="desktop-layout">
       <div class="hero">
@@ -1300,7 +1299,7 @@
       <div class="section-label">Agenda tu servicio</div>
       <h2>Solicitud de cita</h2>
       <p class="calendar-note">
-        Completa la información, escoge la fecha en el calendario y envía la solicitud por WhatsApp.
+        Completa la información, escoge la fecha del servicio y envía la solicitud por WhatsApp.
         La cita se confirma según disponibilidad.
       </p>
 
@@ -1380,7 +1379,13 @@
               <small>Revisa los datos antes de enviar por WhatsApp</small>
             </div>
           </div>
-<div class="summary-line">
+
+          <div class="request-summary clean-summary">
+            <div class="summary-line">
+              <span>Cliente</span>
+              <strong id="summaryName">Nombre por confirmar</strong>
+            </div>
+            <div class="summary-line">
               <span>Fecha</span>
               <strong id="summaryDate">Fecha por confirmar</strong>
             </div>
@@ -1397,7 +1402,8 @@
               <strong id="summaryService">Limpieza de hogar</strong>
             </div>
           </div>
-<button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar por WhatsApp</button>
+
+          <button class="submit-whatsapp" id="bookingWhatsapp" type="button">💬 Enviar por WhatsApp</button>
 
           <p class="calendar-small">
             Al presionar enviar, WhatsApp abrirá con el mensaje y los datos que llenaste en el formulario.
@@ -1433,14 +1439,23 @@
     (function () {
       const phoneNumber = "17875490483";
 
+      function getElement(id) {
+        return document.getElementById(id);
+      }
+
+      function getValue(id, fallback) {
+        const element = getElement(id);
+        if (!element) return fallback;
+        const value = (element.value || "").trim();
+        return value || fallback;
+      }
+
       function formatDate(value) {
         if (!value) return "Fecha por confirmar";
-
         const parts = value.split("-");
         if (parts.length !== 3) return value;
 
         const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-
         return date.toLocaleDateString("es-PR", {
           weekday: "long",
           year: "numeric",
@@ -1449,56 +1464,81 @@
         });
       }
 
-      function cleanValue(elementId, fallback) {
-        const element = document.getElementById(elementId);
-        if (!element) return fallback;
-
-        const value = (element.value || "").trim();
-        return value || fallback;
+      function collectFormData() {
+        return {
+          nombre: getValue("clientName", "Nombre por confirmar"),
+          fecha: formatDate(getValue("appointmentDate", "")),
+          hora: getValue("timeSelect", "Hora por confirmar"),
+          pueblo: getValue("townInput", "Pueblo por confirmar"),
+          servicio: getValue("serviceType", "Servicio por confirmar")
+        };
       }
 
       function buildWhatsAppMessage() {
-        const nombre = cleanValue("clientName", "Nombre por confirmar");
-        const fechaValue = cleanValue("appointmentDate", "");
-        const fecha = formatDate(fechaValue);
-        const hora = cleanValue("timeSelect", "Hora por confirmar");
-        const pueblo = cleanValue("townInput", "Pueblo por confirmar");
-        const servicio = cleanValue("serviceType", "Servicio por confirmar");
-
-        return (
-          "Saludos, quiero saber más información de Brilliant Home By Isa.
-
-" +
-          "Mi nombre es: " + nombre + "
-" +
-          "Fecha del servicio: " + fecha + "
-" +
-          "Hora preferida: " + hora + "
-" +
-          "Pueblo: " + pueblo + "
-" +
-          "Tipo de servicio: " + servicio
-        );
+        const data = collectFormData();
+        return [
+          "Saludos, quiero saber más información de Brilliant Home By Isa.",
+          "",
+          "Mi nombre es: " + data.nombre,
+          "Fecha del servicio: " + data.fecha,
+          "Hora preferida: " + data.hora,
+          "Pueblo: " + data.pueblo,
+          "Tipo de servicio: " + data.servicio
+        ].join("\n");
       }
 
-      function openWhatsApp() {
-        const message = buildWhatsAppMessage();
-        const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+      function updateSummary() {
+        const data = collectFormData();
+        const summaryName = getElement("summaryName");
+        const summaryDate = getElement("summaryDate");
+        const summaryTime = getElement("summaryTime");
+        const summaryTown = getElement("summaryTown");
+        const summaryService = getElement("summaryService");
 
-        window.location.assign(url);
+        if (summaryName) summaryName.textContent = data.nombre;
+        if (summaryDate) summaryDate.textContent = data.fecha;
+        if (summaryTime) summaryTime.textContent = data.hora;
+        if (summaryTown) summaryTown.textContent = data.pueblo;
+        if (summaryService) summaryService.textContent = data.servicio;
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const button = document.getElementById("bookingWhatsapp");
-
-        if (button) {
-          button.addEventListener("click", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            openWhatsApp();
-          });
+      function openWhatsApp(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
         }
-      });
+
+        updateSummary();
+        const message = buildWhatsAppMessage();
+        const url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+        window.location.href = url;
+        return false;
+      }
+
+      window.sendWhatsAppBooking = openWhatsApp;
+
+      function initBookingForm() {
+        const fields = ["clientName", "appointmentDate", "timeSelect", "townInput", "serviceType"];
+        fields.forEach(function (id) {
+          const field = getElement(id);
+          if (!field) return;
+          field.addEventListener("input", updateSummary);
+          field.addEventListener("change", updateSummary);
+        });
+
+        const button = getElement("bookingWhatsapp");
+        if (button) {
+          button.addEventListener("click", openWhatsApp);
+        }
+
+        updateSummary();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initBookingForm);
+      } else {
+        initBookingForm();
+      }
     })();
   </script>
 
