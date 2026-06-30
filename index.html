@@ -1119,6 +1119,23 @@
       }
     }
 
+
+    .submit-whatsapp {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      pointer-events: auto !important;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 20;
+    }
+
+    .submit-whatsapp:hover {
+      filter: brightness(1.05);
+    }
+
   </style>
 </head>
 
@@ -1312,9 +1329,9 @@
             </div>
           </div>
 
-          <button class="submit-whatsapp" type="submit">
+          <a class="submit-whatsapp" id="bookingWhatsapp" href="https://wa.me/17875490483" target="_blank" rel="noopener noreferrer">
             💬 Enviar solicitud por WhatsApp
-          </button>
+          </a>
 
           <p class="calendar-small">
             El botón abre WhatsApp con todos los datos escritos. Solo revisa y envía.
@@ -1339,16 +1356,17 @@
 
 
 
+
   <script>
     (function () {
       const phoneNumber = "17875490483";
 
-      const form = document.getElementById("bookingForm");
       const clientName = document.getElementById("clientName");
       const appointmentDate = document.getElementById("appointmentDate");
       const timeSelect = document.getElementById("timeSelect");
       const townInput = document.getElementById("townInput");
       const serviceType = document.getElementById("serviceType");
+      const bookingWhatsapp = document.getElementById("bookingWhatsapp");
 
       const summaryName = document.getElementById("summaryName");
       const summaryDate = document.getElementById("summaryDate");
@@ -1358,9 +1376,12 @@
 
       function formatDate(value) {
         if (!value) return "Fecha por confirmar";
+
         const parts = value.split("-");
         if (parts.length !== 3) return value;
+
         const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+
         return date.toLocaleDateString("es-PR", {
           weekday: "long",
           year: "numeric",
@@ -1375,26 +1396,18 @@
         return value || fallback;
       }
 
-      function updateSummary() {
-        const name = cleanValue(clientName, "Nombre por confirmar");
-        const date = formatDate(appointmentDate ? appointmentDate.value : "");
-        const time = cleanValue(timeSelect, "Hora por confirmar");
-        const town = cleanValue(townInput, "Pueblo por confirmar");
-        const service = cleanValue(serviceType, "Servicio por confirmar");
-
-        if (summaryName) summaryName.textContent = name;
-        if (summaryDate) summaryDate.textContent = date;
-        if (summaryTime) summaryTime.textContent = time;
-        if (summaryTown) summaryTown.textContent = town;
-        if (summaryService) summaryService.textContent = service;
-
-        return { name, date, time, town, service };
+      function collectData() {
+        return {
+          name: cleanValue(clientName, "Nombre por confirmar"),
+          date: formatDate(appointmentDate ? appointmentDate.value : ""),
+          time: cleanValue(timeSelect, "Hora por confirmar"),
+          town: cleanValue(townInput, "Pueblo por confirmar"),
+          service: cleanValue(serviceType, "Servicio por confirmar")
+        };
       }
 
-      function openWhatsApp() {
-        const data = updateSummary();
-
-        const message =
+      function buildMessage(data) {
+        return (
           "👋 ¡Hola! Me gustaría solicitar una cita con Brilliant Home By Isa.
 
 " +
@@ -1411,28 +1424,45 @@
           "🧹 Servicio: " + data.service + "
 
 " +
-          "¿Me pueden confirmar disponibilidad y precio? Gracias.";
+          "¿Me pueden confirmar disponibilidad y precio? Gracias."
+        );
+      }
 
-        const url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
-        window.open(url, "_blank", "noopener,noreferrer");
+      function updateSummaryAndLink() {
+        const data = collectData();
+
+        if (summaryName) summaryName.textContent = data.name;
+        if (summaryDate) summaryDate.textContent = data.date;
+        if (summaryTime) summaryTime.textContent = data.time;
+        if (summaryTown) summaryTown.textContent = data.town;
+        if (summaryService) summaryService.textContent = data.service;
+
+        const message = buildMessage(data);
+        const whatsappUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+
+        if (bookingWhatsapp) {
+          bookingWhatsapp.href = whatsappUrl;
+        }
+
+        return whatsappUrl;
       }
 
       [clientName, appointmentDate, timeSelect, townInput, serviceType].forEach(function (field) {
         if (!field) return;
-        field.addEventListener("input", updateSummary);
-        field.addEventListener("change", updateSummary);
+        field.addEventListener("input", updateSummaryAndLink);
+        field.addEventListener("change", updateSummaryAndLink);
       });
 
-      if (form) {
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          openWhatsApp();
+      if (bookingWhatsapp) {
+        bookingWhatsapp.addEventListener("click", function () {
+          updateSummaryAndLink();
         });
       }
 
-      updateSummary();
+      updateSummaryAndLink();
     })();
   </script>
+
 
 
 
